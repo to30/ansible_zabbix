@@ -1,0 +1,14 @@
+---
+
+- hosts: all
+  tasks:
+    - apitest: {
+      groupname=rc4
+      hostname=c7red
+      hoststatus=1
+    }
+    
+
+
+
+

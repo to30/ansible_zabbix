@@ -1,0 +1,78 @@
+#!/bin/bash
+# アカウント情報.
+DOMAIN_NAME=XXXXX
+DOMAIN_ID=XXXXX
+TENANT_ID=XXXXX
+PROJECT_ID=$TENANT_ID
+USER_NAME='XXXXX'
+USER_PW=XXXXX
+
+# エンドポイントショートカット.
+TOKEN=https://identity.cloud.global.fujitsu.com
+IDENTITY=$TOKEN
+NETWORK=https://networking.jp-east-1.cloud.global.fujitsu.com
+COMPUTE=https://compute.jp-east-1.cloud.global.fujitsu.com
+CEILOMETER=https://telemetry.jp-east-1.cloud.global.fujitsu.com
+TELEMETRY=$CEILOMETER
+DB=https://database.jp-east-1.cloud.global.fujitsu.com
+BLOCKSTORAGE=https://blockstorage.jp-east-1.cloud.global.fujitsu.com
+HOST_BLOCKSTORAGEV2=$BLOCKSTORAGE
+OBJECTSTORAGE=https://objectstorage.jp-east-1.cloud.global.fujitsu.com
+ORCHESTRATION=https://orchestration.jp-east-1.cloud.global.fujitsu.com
+ELB=https://loadbalancing.jp-east-1.cloud.global.fujitsu.com
+AUTOSCALE=https://autoscale.jp-east-1.cloud.global.fujitsu.com
+IMAGE=https://image.jp-east-1.cloud.global.fujitsu.com
+MAILSERVOCE=https://mail.jp-east-1.cloud.global.fujitsu.com
+NETWORK_EX=https://networking-ex.jp-east-1.cloud.global.fujitsu.com
+DNS=https://dns.cloud.global.fujitsu.com
+
+TMPFILE=/home/k5user/tomo/token.txt
+
+#######################################
+# トークンを取得する
+# Returns:
+# TOKEN
+#######################################
+create_token() {
+  PARAMS=$(cat << EOS
+    {
+      "auth": {
+        "scope": {
+          "project": {
+            "id": "$PROJECT_ID"
+          }
+        },
+        "identity": {
+          "password": {
+            "user": {
+              "password": "$USER_PW",
+              "name": "$USER_NAME",
+              "domain": {
+                "name": "$DOMAIN_NAME"
+              }
+            }
+          },
+          "methods": [
+            "password"
+          ]
+        }
+      }
+    }
+EOS
+  )
+
+  curl -k -X POST -si ${TOKEN}/v3/auth/tokens -H 'Content-Type:application/json' \
+       -H 'Accept:application/json' \
+       -d "${PARAMS}" | awk '/X-Subject-Token/ {print $2}'|tr -d '\r\n'
+
+}
+
+test() {
+  tokensA="$(create_token)"
+  echo "${tokensA}"
+}
+
+#create_token
+#echo "${test}"
+test
+

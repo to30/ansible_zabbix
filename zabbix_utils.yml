@@ -1,0 +1,11 @@
+---
+
+- hosts:
+  - all
+  tasks:
+    - zabbix_utils: {
+      groupname=rc5
+      hostname=c7red
+      hoststatus=1
+      dummy=dummy
+    }

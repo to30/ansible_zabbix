@@ -1,0 +1,25 @@
+---
+
+- hosts:
+  - all
+  tasks:
+    - name: task1
+      create_port_k5: {
+        network_name=ope-int-mng-az1
+        subnet_name=ope-int-mng-az1
+        ip_address=10.93.170.30
+        port_name=create_by_ansible5
+        az_name=jp-east-1a
+        dummy=dummy
+      }
+    - name: another task
+      create_port_k5: {
+        network_name=ope-int-mng-az1
+        subnet_name=ope-int-mng-az1
+        ip_address=10.93.170.31
+        port_name=create_by_ansible6
+        az_name=jp-east-1a
+        dummy=dummy
+      }
+
+

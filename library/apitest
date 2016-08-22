@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source `dirname $0`/args
+
+#echo "{\"message\":\"$groupname\"}"
+echo "{\"message\":\"$hostname\"}"
+#echo "{\"message\":\"$hoststatus\"}"
